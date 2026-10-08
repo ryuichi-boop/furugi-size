@@ -236,10 +236,25 @@
 
   function resetAll() {
     if (!confirm('入力内容をリセットしますか？')) return;
+    
+    // 1. 各カテゴリの数値をクリア
     Object.keys(categories).forEach(k => {
       categories[k].forEach(f => f.val = '');
     });
+
+    // 2. ダメージ等の選択をすべて解除
     document.querySelectorAll('#damageTags .selected').forEach(c => c.classList.remove('selected'));
+
+    // 3. 全体コンディションを初期状態（先頭の「目立った傷や汚れなし」）にリセット
+    const condChips = document.querySelectorAll('#conditionTags .tag-chip');
+    condChips.forEach((chip, idx) => {
+      if (idx === 0) {
+        chip.classList.add('selected');
+      } else {
+        chip.classList.remove('selected');
+      }
+    });
+
     activeFieldIndex = 0;
     renderFields();
     generateText();
